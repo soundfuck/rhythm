@@ -10,7 +10,7 @@ class Metronome extends Component {
       <MetronomeInput
         type='range'
         min='10'
-        max='240'
+        max='230'
         value={bpm}
         onChange={onChange}
       />

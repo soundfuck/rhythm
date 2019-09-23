@@ -13,8 +13,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25vw;
-  padding: 16px 8px;
+  width: 35vw;
+  padding: 16px 0;
   @media (max-width: 1000px) {
     width: calc(100vw - 32px);
   }

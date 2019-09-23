@@ -6,6 +6,7 @@ const Cards = ({ cards, count }) => (
   <CardsContainer id="cards-container">
     {cards.map((card, index) => (
       <Card
+        className="card"
         type={index === count ? 'main' : 'default'}
         key={index}
       >

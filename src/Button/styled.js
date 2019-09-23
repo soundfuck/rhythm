@@ -17,9 +17,9 @@ export const Button = styled.button`
   padding: 16px 0;
   outline: none;
   ${props => props.playing && `
-    background: #ff8e8e;
+    background: rgb(255, 164, 164);
     color: #a03333;
-    border: 1px solid #fba1a1;
+    border: 1px solid rgb(251, 161, 161);
   `}
 `;
 

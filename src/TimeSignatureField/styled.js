@@ -63,5 +63,9 @@ export const NumberInput = styled.input`
   font-size: 1.2rem;
   height: 2.5rem;
   font-weight: 500;
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
 `;
-

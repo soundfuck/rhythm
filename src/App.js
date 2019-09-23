@@ -9,6 +9,8 @@ import StartStopButton from './Button/Button';
 import click1 from './assets/sounds/click1.wav';
 import click2 from './assets/sounds/click2.wav';
 
+import { shuffle } from './helper';
+
 import {
   Outer,
   Container,
@@ -21,18 +23,28 @@ export default class App extends Component {
     super(props)
     this.state = {
       playing: false,
-      bpm: 120,
+      bpm: 180,
       clicksCount: 0,
 
       cards: [],
-      cardsValues: 'a, b, c, d, e',
+      cardsValues:
+        `F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E`
+      ,
+      // cardsValues: 'a,b,c,d,e,d,g,o',
       cardsCount: 0,
 
-
-      clicksBeforeNextValue: 1,
+      clicksBeforeNextValue: 2,
     }
     this.click1 = new Audio(click1);
     this.click2 = new Audio(click2);
+  }
+
+  componentDidMount() {
+    this.getCards();
   }
 
   changeClicksBeforeNextValue = (newValue) => {
@@ -40,7 +52,7 @@ export default class App extends Component {
   }
 
   onCardsValuesChange = (e) => {
-    this.setState({ cardsValues: e.target.value });
+    this.setState({ cardsValues: e.target.value }, this.getCards);
   }
 
   onBpmChange = (e) => {
@@ -64,8 +76,8 @@ export default class App extends Component {
 
   getCards = () => {
     const { cardsValues } = this.state;
-    const cards = cardsValues.split(',');
-    return cards;
+    const cards = shuffle(cardsValues.split(','));
+    this.setState({ cards });
   }
 
   playClick = () => {
@@ -73,10 +85,8 @@ export default class App extends Component {
       clicksCount,
       cardsCount,
       clicksBeforeNextValue,
+      cards
     } = this.state;
-
-    // Get Cards
-    const cards = this.getCards();
 
     let newClicksCount = clicksCount + 1;
     let newCardsCount = cardsCount;
@@ -88,19 +98,13 @@ export default class App extends Component {
       if (cardsCount === cards.length - 1) {
         // If last card reset count
         newCardsCount = 0;
-        // document.getElementById("cards-container").scrollLeft = 0;
-        document.getElementById('cards-container').scrollTo({
-          left: 0,
-          behavior: 'auto'
-        });
+        document.getElementById("cards-container").scrollLeft = 0;
       } else {
         // Else jump to next card
         newCardsCount += 1;
-        // document.getElementById("cards-container").scrollLeft = 191 * newCardsCount;
-        document.getElementById('cards-container').scrollTo({
-          left: 192 * newCardsCount,
-          behavior: 'smooth'
-        });
+        const newCard = document.getElementsByClassName('card')[0];
+        const cardWidth = newCard.offsetWidth;
+        document.getElementById("cards-container").scrollLeft = cardWidth * newCardsCount;
       }
     } else {
       this.click1.play();
@@ -114,6 +118,7 @@ export default class App extends Component {
 
   startStop = () => {
     const { playing, bpm } = this.state;
+
     if (playing) {
       clearInterval(this.timer);
       document.getElementById('cards-container').scrollTo({
@@ -144,9 +149,9 @@ export default class App extends Component {
       cardsCount,
       cardsValues,
       playing,
-      clicksBeforeNextValue
+      clicksBeforeNextValue,
+      cards,
     } = this.state;
-    const cards = this.getCards();
 
     return (
       <Outer>
@@ -163,7 +168,7 @@ export default class App extends Component {
           />
 
           <Label>
-            Type values separated by comma
+            Values, separated by coma (eg G, F♯, B♭)
           </Label>
           <CardsValuesField
             value={cardsValues}
@@ -171,7 +176,7 @@ export default class App extends Component {
           />
 
           <Label>
-            Specify clicks before card change
+            Change card on every {clicksBeforeNextValue} click
           </Label>
           <TimeSignatureField
             value={clicksBeforeNextValue}
@@ -179,12 +184,12 @@ export default class App extends Component {
           />
 
           <Cards
-            cards={[...cards, cards[0]]}
+            cards={[...cards, cards[0], cards[1]]}
             count={cardsCount}
           />
 
           <StartStopButton
-            startStop={this.startStop}
+            startStop={() => this.startStop()}
             playing={playing}
           />
 

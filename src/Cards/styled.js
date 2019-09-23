@@ -7,8 +7,8 @@ export const CardsContainer = styled.div`
   align-items: center;
   justify-content: start;
   width: 100%;
-  overflow-x: scroll;
-  padding: 24px 0 16px 0;
+  overflow-x: hidden;
+  padding: 24px;
 `;
 
 // min-width: calc(50% - 12px);
@@ -16,13 +16,23 @@ export const Card = styled.div`
 
   font-size: 1.5rem;
   background: white;
-  height: 180px;
-  min-width: 180px;
+
+  height: 150px;
+  min-width: 52%;
+  @media (min-width: 420px) {
+    height: 240px;
+  }
+  @media (min-width: 720px) {
+    height: 300px;
+  }
+  @media (min-width: 1000px) {
+    height: 260px;
+  }
+
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 12px;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  transition: all 0.15s cubic-bezier(.25,.8,.25,1);
   &:last-child {
       margin-right: 192px;
   }
@@ -37,6 +47,9 @@ export const Card = styled.div`
         return `
           opacity: 1;
           transform: scale(1);
+          span {
+            font-size: 1.8rem;
+          }
         `
       default:
         return `
