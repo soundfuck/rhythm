@@ -41,13 +41,11 @@ export default class App extends Component {
       cardsValues: 'a,b,c,d,e,d,g,o',
       cardsCount: 0,
 
-      clicksBeforeNextValue: 2,
+      clicksBeforeNextValue: 7,
     }
     this.click1 = new Audio(click1);
-    this.click2 = new Audio(click2);
-    this.subBass = new Audio(subBass);
-    this.closedHiHat = new Audio(closedHiHat);
-    this.closedHiHat808 = new Audio(closedHiHat808);
+    this.click2 = new Audio(closedHiHat808);
+    // this.click2 = new Audio(click2);
   }
 
   componentDidMount() {
@@ -101,10 +99,7 @@ export default class App extends Component {
     if (newClicksCount == clicksBeforeNextValue) {
       // Reset clicks
       newClicksCount = 0;
-      // this.click2.play();
-      // this.subBass.play();
-      // this.closedHiHat.play();
-      this.closedHiHat808.play();
+      this.click2.play();
       if (cardsCount === cards.length - 1) {
         // If last card reset count
         newCardsCount = 0;
