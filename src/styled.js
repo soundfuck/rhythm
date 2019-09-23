@@ -33,3 +33,8 @@ export const Label = styled.p`
   opacity: 0.7;
   margin-bottom: 12px;
 `;
+
+export const GithubLink = styled.a`
+  opacity: 0.7;
+  margin-bottom: 12px;
+`;

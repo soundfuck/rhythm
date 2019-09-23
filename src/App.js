@@ -8,6 +8,9 @@ import StartStopButton from './Button/Button';
 
 import click1 from './assets/sounds/click1.wav';
 import click2 from './assets/sounds/click2.wav';
+import subBass from './assets/sounds/sub-bass.wav';
+import closedHiHat from './assets/sounds/closed-hi-hat.wav';
+import closedHiHat808 from './assets/sounds/808-closed-hat.wav';
 
 import { shuffle } from './helper';
 
@@ -15,7 +18,8 @@ import {
   Outer,
   Container,
   BPM,
-  Label
+  Label,
+  // GithubLink
 } from './styled';
 
 export default class App extends Component {
@@ -27,20 +31,23 @@ export default class App extends Component {
       clicksCount: 0,
 
       cards: [],
-      cardsValues:
-        `F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E`
-      ,
-      // cardsValues: 'a,b,c,d,e,d,g,o',
+      // cardsValues:
+      //   `F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E`
+      // ,
+      cardsValues: 'a,b,c,d,e,d,g,o',
       cardsCount: 0,
 
       clicksBeforeNextValue: 2,
     }
     this.click1 = new Audio(click1);
     this.click2 = new Audio(click2);
+    this.subBass = new Audio(subBass);
+    this.closedHiHat = new Audio(closedHiHat);
+    this.closedHiHat808 = new Audio(closedHiHat808);
   }
 
   componentDidMount() {
@@ -94,7 +101,10 @@ export default class App extends Component {
     if (newClicksCount == clicksBeforeNextValue) {
       // Reset clicks
       newClicksCount = 0;
-      this.click2.play();
+      // this.click2.play();
+      // this.subBass.play();
+      // this.closedHiHat.play();
+      this.closedHiHat808.play();
       if (cardsCount === cards.length - 1) {
         // If last card reset count
         newCardsCount = 0;
@@ -193,6 +203,11 @@ export default class App extends Component {
             playing={playing}
           />
 
+          {/*
+          <GithubLink src="https://github.com/ignatif/-metronome">
+            github.com/ignatif/♯metronome
+          </GithubLink>
+          */}
         </Container>
       </Outer>
     );

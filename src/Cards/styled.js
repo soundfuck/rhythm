@@ -23,10 +23,10 @@ export const Card = styled.div`
     height: 240px;
   }
   @media (min-width: 720px) {
-    height: 300px;
+    height: 280px;
   }
   @media (min-width: 1000px) {
-    height: 260px;
+    height: 220px;
   }
 
   display: flex;
