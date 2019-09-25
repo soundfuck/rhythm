@@ -20,7 +20,6 @@ import {
   Container,
   BPM,
   Label,
-  // GithubLink
 } from './styled';
 
 let unlocked = false;
@@ -40,14 +39,14 @@ export default class App extends Component {
       clicksCount: 0,
 
       cards: [],
-      // cardsValues:
-      //   `F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-      //   F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E`
-      // ,
-      cardsValues: 'a,b,c,d,e,d,g,o',
+      cardsValues:
+        `F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
+        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E`
+      ,
+      // cardsValues: 'a,b,c,d,e,d,g,o',
       cardsCount: 0,
 
       clicksBeforeNextValue: 7,
@@ -148,11 +147,11 @@ export default class App extends Component {
     } else {
       if (!unlocked) {
         // play silent buffer to unlock the audio
-        var buffer = audioContext.createBuffer(1, 1, 22050);
-        var node = audioContext.createBufferSource();
-        node.buffer = buffer;
-        node.start(0);
-        unlocked = true;
+        // var buffer = audioContext.createBuffer(1, 1, 80000);
+        // var node = audioContext.createBufferSource();
+        // node.buffer = buffer;
+        // node.start(0);
+        // unlocked = true;
       }
       this.timer = new AccurateTimer(this.playClick, (60 / bpm) * 1000);
       this.timer.start();
