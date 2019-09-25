@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AccurateTimer from 'accurate-timer-js';
 
 import Metronome from './Metronome/Metronome';
 import CardsValuesField from './CardsValuesField/CardsValuesField';
@@ -21,6 +22,14 @@ import {
   Label,
   // GithubLink
 } from './styled';
+
+let unlocked = false;
+const AudioContext = window.AudioContext // Default
+    || window.webkitAudioContext // Safari and old versions of Chrome
+    || false; 
+let audioContext = new AudioContext();
+console.log(AudioContext);
+console.log(audioContext);
 
 export default class App extends Component {
   constructor(props) {
@@ -66,8 +75,9 @@ export default class App extends Component {
 
     if (playing) {
       // Stop the old timer and start a new one
-      clearInterval(this.timer);
-      this.timer = setInterval(this.playClick, (60 / bpm) * 1000);
+      this.timer.stop();
+      this.timer = new AccurateTimer(this.playClick, (60 / bpm) * 1000);
+      this.timer.start();
 
       // Set the new BPM, and reset the beat counter
       this.setState({
@@ -125,7 +135,7 @@ export default class App extends Component {
     const { playing, bpm } = this.state;
 
     if (playing) {
-      clearInterval(this.timer);
+      this.timer.stop();
       document.getElementById('cards-container').scrollTo({
         left: 0,
         behavior: 'auto'
@@ -136,9 +146,16 @@ export default class App extends Component {
         playing: false
       });
     } else {
-      this.timer = setInterval(
-        this.playClick, (60 / bpm) * 1000
-      );
+      if (!unlocked) {
+        // play silent buffer to unlock the audio
+        var buffer = audioContext.createBuffer(1, 1, 22050);
+        var node = audioContext.createBufferSource();
+        node.buffer = buffer;
+        node.start(0);
+        unlocked = true;
+      }
+      this.timer = new AccurateTimer(this.playClick, (60 / bpm) * 1000);
+      this.timer.start();
 
       this.setState({
         clicksCount: 0,
