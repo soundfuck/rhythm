@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "accurate-timer-js": "0.1.1",
+    "ios-safe-audio-context": "1.0.1",
     "raphael": "2.3.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
