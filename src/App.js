@@ -7,11 +7,13 @@ import TimeSignatureField from './TimeSignatureField/TimeSignatureField';
 import Cards from './Cards/Cards';
 import StartStopButton from './Button/Button';
 
-import click1 from './assets/sounds/click1.wav';
-import click2 from './assets/sounds/click2.wav';
+// import click1 from './assets/sounds/click1.wav';
+// import click2 from './assets/sounds/click2.wav';
+import click2 from './assets/sounds/hi_click.wav';
+import click1 from './assets/sounds/low_click.wav';
 import subBass from './assets/sounds/sub-bass.wav';
 import closedHiHat from './assets/sounds/closed-hi-hat.wav';
-import closedHiHat808 from './assets/sounds/808-closed-hat.wav';
+import closedHiHat808 from './assets/sounds/808-trimmed.wav';
 
 import { shuffle } from './helper';
 
@@ -22,13 +24,12 @@ import {
   Label,
 } from './styled';
 
-let unlocked = false;
+const createAudioContext = require('ios-safe-audio-context')
+
 const AudioContext = window.AudioContext // Default
     || window.webkitAudioContext // Safari and old versions of Chrome
     || false; 
 let audioContext = new AudioContext();
-console.log(AudioContext);
-console.log(audioContext);
 
 export default class App extends Component {
   constructor(props) {
@@ -39,25 +40,34 @@ export default class App extends Component {
       clicksCount: 0,
 
       cards: [],
-      cardsValues:
-        `F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E,
-        F♯, B♭, G, D♭, E, A♯, F♯, B♭, G, D♭, E, A♯ F♯, B♭, G, D♭, E`
-      ,
-      // cardsValues: 'a,b,c,d,e,d,g,o',
+      cardsValues: 'a,b,c,d,e,d,g,o',
       cardsCount: 0,
 
       clicksBeforeNextValue: 7,
     }
     this.click1 = new Audio(click1);
-    this.click2 = new Audio(closedHiHat808);
+    this.click2 = new Audio(click2);
+
+    document.addEventListener('touchend', () => {
+      const audioContext = createAudioContext()
+      var buffer = audioContext.createBuffer(1, 1, 10000);
+      var node = audioContext.createBufferSource();
+      node.buffer = buffer;
+      node.start(0);
+    })
     // this.click2 = new Audio(click2);
   }
 
   componentDidMount() {
     this.getCards();
+    // if (!unlocked) {
+    //   // play silent buffer to unlock the audio
+    //   var buffer = audioContext.createBuffer(1, 1, 10000);
+    //   var node = audioContext.createBufferSource();
+    //   node.buffer = buffer;
+    //   node.start(0);
+    //   unlocked = true;
+    // }
   }
 
   changeClicksBeforeNextValue = (newValue) => {
@@ -145,14 +155,6 @@ export default class App extends Component {
         playing: false
       });
     } else {
-      if (!unlocked) {
-        // play silent buffer to unlock the audio
-        // var buffer = audioContext.createBuffer(1, 1, 80000);
-        // var node = audioContext.createBufferSource();
-        // node.buffer = buffer;
-        // node.start(0);
-        // unlocked = true;
-      }
       this.timer = new AccurateTimer(this.playClick, (60 / bpm) * 1000);
       this.timer.start();
 
